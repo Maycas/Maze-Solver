@@ -1,0 +1,14 @@
+.Maze {
+  text-align: center;
+}
+
+.Row {
+  display:flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.Button {
+  text-align: center;
+  margin:auto
+}
