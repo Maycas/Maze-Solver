@@ -4,6 +4,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const cors = require('cors')
 
 const solverApi = require('./routes/solverAPI')
 
@@ -11,7 +12,7 @@ const solverApi = require('./routes/solverAPI')
  * App Variables
  */
 const app = express()
-const port = process.env.PORT || '8080'
+const port = process.env.PORT || '8000'
 
 /**
  *  App Configuration
@@ -22,11 +23,12 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 app.use(morgan('dev'))
+app.use(cors())
 
 /**
  * Routes Definitions
  */
-app.use('/', solverApi)
+app.use('/api', solverApi)
 
 // catch 404 and forward to global error handler
 app.use((req, res, next) => {
