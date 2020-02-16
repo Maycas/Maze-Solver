@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
 
-const solverApi = require('./routes/solverAPI')
+const solver = require('./routes/solver')
 
 /**
  * App Variables
@@ -28,7 +28,7 @@ app.use(cors())
 /**
  * Routes Definitions
  */
-app.use('/api', solverApi)
+app.use('/api', solver)
 
 // catch 404 and forward to global error handler
 app.use((req, res, next) => {
@@ -41,10 +41,9 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   res.status(err.status || 500)
   if (err.errors) {
-    // Errors coming from Mongoose
     res.json(err)
   } else {
-    // Errors coming from middleware
+    console.log(err)
     res.json({
       _message: err.message,
       status: err.status

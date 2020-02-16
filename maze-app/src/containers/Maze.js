@@ -11,7 +11,7 @@ class Maze extends React.Component {
     super(props)
     this.state = {
 			// wall: -1; start: 0, path cells: ' '
-			values: [
+			grid: [
 				[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
 				[-1, ' ', ' ', ' ', -1, ' ', ' ', ' ', ' ', -1],
 				[-1, ' ', -1, ' ', ' ', ' ', -1, ' ', -1, -1],
@@ -22,12 +22,12 @@ class Maze extends React.Component {
 				[-1, ' ', -1, -1, ' ', -1, ' ', ' ', ' ', -1],
 				[-1, ' ', ' ', -1, ' ', ' ', ' ', -1, 0, -1],
 				[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-			]
+			],
 		}
   }
 
   parseMazeToHtml = () => {
-    let values = this.state.values
+    let values = this.state.grid
     return values.map((row, rowId) => {
       return (
 				<div className={styles.Row} key={'row' + rowId}>
@@ -46,10 +46,10 @@ class Maze extends React.Component {
   onClickHandler = () => {
 		axios
 			.post('http://localhost:8000/api/solveMaze', {
-				values: this.state.values
+				grid: this.state.grid
 			})
 			.then(response => {
-				this.setState({ values: response.data.values})
+				this.setState({ grid: response.data.values})
 			})
 			.catch(error => {
 				console.log(error)
@@ -59,7 +59,7 @@ class Maze extends React.Component {
   render () {
     return (
 			<div className={styles.Maze}>
-        <h2>Maze Solver!</h2>
+        <h1>Maze Solver!</h1>
 				<div>{this.parseMazeToHtml()}</div>
         <Button onClick={this.onClickHandler}>FIND BEST PATH</Button>
 			</div>
