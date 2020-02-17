@@ -4,40 +4,39 @@ import axios from 'axios'
 import styles from './Maze.module.css'
 
 import Cell from '../components/Cell/Cell'
-import Button from '../components/UI/Button/Button'
+import Controls from '../components/UI/Controls/Controls'
 
 class Maze extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-			// wall: -1; start: 0, path cells: ' '
-			grid: [
-				[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-				[-1, ' ', ' ', ' ', -1, ' ', ' ', ' ', ' ', -1],
-				[-1, ' ', -1, ' ', ' ', ' ', -1, ' ', -1, -1],
-				[-1, ' ', -1, -1, ' ', -1, -1, ' ', ' ', -1],
-				[-1, ' ', ' ', -1, ' ', -1, -1, -1, ' ', -1],
-				[-1, ' ', -1, -1, ' ', ' ', ' ', ' ', ' ', -1],
-				[-1, ' ', ' ', ' ', ' ', -1, ' ', -1, -1, -1],
-				[-1, ' ', -1, -1, ' ', -1, ' ', ' ', ' ', -1],
-				[-1, ' ', ' ', -1, ' ', ' ', ' ', -1, 0, -1],
-				[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-			],
+			grid: []
 		}
-  }
+	}
+	
+	componentDidMount () {
+		this.getMaze()
+	}
 
-  parseMazeToHtml = () => {
+	getMaze = () => {
+		axios.get('http://localhost:8000/api/maze')
+			.then(response => this.setState({ grid: response.data.grid }))
+	}
+
+  parseMaze = () => {
     let values = this.state.grid
     return values.map((row, rowId) => {
       return (
-				<div className={styles.Row} key={'row' + rowId}>
-					{row.map((cellValue, colId) => { 
-            return (
-              <div key={'col-' + colId}>
-                <Cell value={cellValue} />
-              </div>
-            )
-          })}
+				<div>
+					<div className={styles.Row} key={'row' + rowId}>
+						{row.map((cellValue, colId) => { 
+							return (
+								<div key={'col-' + colId}>
+									<Cell value={cellValue} />
+								</div>
+							)
+						})}
+					</div>
 				</div>
 			)
     })
@@ -49,7 +48,7 @@ class Maze extends React.Component {
 				grid: this.state.grid
 			})
 			.then(response => {
-				this.setState({ grid: response.data.values})
+				this.setState({ grid: response.data.grid })
 			})
 			.catch(error => {
 				console.log(error)
@@ -57,29 +56,18 @@ class Maze extends React.Component {
 	}
 	
 	onResetMazeHandler = () => {
-		this.setState({
-			grid: [
-				[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-				[-1, ' ', ' ', ' ', -1, ' ', ' ', ' ', ' ', -1],
-				[-1, ' ', -1, ' ', ' ', ' ', -1, ' ', -1, -1],
-				[-1, ' ', -1, -1, ' ', -1, -1, ' ', ' ', -1],
-				[-1, ' ', ' ', -1, ' ', -1, -1, -1, ' ', -1],
-				[-1, ' ', -1, -1, ' ', ' ', ' ', ' ', ' ', -1],
-				[-1, ' ', ' ', ' ', ' ', -1, ' ', -1, -1, -1],
-				[-1, ' ', -1, -1, ' ', -1, ' ', ' ', ' ', -1],
-				[-1, ' ', ' ', -1, ' ', ' ', ' ', -1, 0, -1],
-				[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-			],
-		})
+		this.getMaze()
 	}
 
   render () {
     return (
 			<div className={styles.Maze}>
         <h1>Maze Solver!</h1>
-				<div>{this.parseMazeToHtml()}</div>
-        <Button onClick={this.onSolveClickHandler}>FIND BEST PATH</Button>
-				<Button onClick={this.onResetMazeHandler}>RESET MAZE</Button>
+				{this.parseMaze()}
+				<Controls 
+					onSolveClickHandler={this.onSolveClickHandler}
+					onResetMazeHandler={this.onResetMazeHandler} 
+				/>
 			</div>
 		)
   }

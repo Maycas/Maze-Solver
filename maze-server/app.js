@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
 
-const solver = require('./routes/solver')
+const routes = require('./routes/api-routes')
 
 /**
  * App Variables
@@ -28,7 +28,7 @@ app.use(cors())
 /**
  * Routes Definitions
  */
-app.use('/api', solver)
+app.use('/api', routes)
 
 // catch 404 and forward to global error handler
 app.use((req, res, next) => {
@@ -45,7 +45,7 @@ app.use((err, req, res, next) => {
   } else {
     console.log(err)
     res.json({
-      _message: err.message,
+      _message: 'SERVER ERROR: ' + err.message,
       status: err.status
     })
   }

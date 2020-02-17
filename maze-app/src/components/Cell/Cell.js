@@ -12,6 +12,9 @@ const cell = (props) => {
     case 0:
       classes.push(styles.Start)
       break
+    case 'X':
+      classes.push(styles.Unreachable)
+      break
     default:
       break
   }
