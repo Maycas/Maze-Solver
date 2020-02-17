@@ -43,7 +43,7 @@ class Maze extends React.Component {
     })
   }
 
-  onClickHandler = () => {
+  onSolveClickHandler = () => {
 		axios
 			.post('http://localhost:8000/api/solveMaze', {
 				grid: this.state.grid
@@ -54,14 +54,32 @@ class Maze extends React.Component {
 			.catch(error => {
 				console.log(error)
 			})
-  }
+	}
+	
+	onResetMazeHandler = () => {
+		this.setState({
+			grid: [
+				[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+				[-1, ' ', ' ', ' ', -1, ' ', ' ', ' ', ' ', -1],
+				[-1, ' ', -1, ' ', ' ', ' ', -1, ' ', -1, -1],
+				[-1, ' ', -1, -1, ' ', -1, -1, ' ', ' ', -1],
+				[-1, ' ', ' ', -1, ' ', -1, -1, -1, ' ', -1],
+				[-1, ' ', -1, -1, ' ', ' ', ' ', ' ', ' ', -1],
+				[-1, ' ', ' ', ' ', ' ', -1, ' ', -1, -1, -1],
+				[-1, ' ', -1, -1, ' ', -1, ' ', ' ', ' ', -1],
+				[-1, ' ', ' ', -1, ' ', ' ', ' ', -1, 0, -1],
+				[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+			],
+		})
+	}
 
   render () {
     return (
 			<div className={styles.Maze}>
         <h1>Maze Solver!</h1>
 				<div>{this.parseMazeToHtml()}</div>
-        <Button onClick={this.onClickHandler}>FIND BEST PATH</Button>
+        <Button onClick={this.onSolveClickHandler}>FIND BEST PATH</Button>
+				<Button onClick={this.onResetMazeHandler}>RESET MAZE</Button>
 			</div>
 		)
   }
