@@ -1,12 +1,12 @@
 import React from 'react'
 import axios from 'axios'
 
-import styles from './Maze.module.css'
+import styles from './Main.module.css'
 
-import Cell from '../components/Cell/Cell'
+import Maze from '../components/Maze/Maze'
 import Controls from '../components/UI/Controls/Controls'
 
-class Maze extends React.Component {
+class Main extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -22,25 +22,6 @@ class Maze extends React.Component {
 		axios.get('http://localhost:8000/api/maze')
 			.then(response => this.setState({ grid: response.data.grid }))
 	}
-
-  parseMaze = () => {
-    let values = this.state.grid
-    return values.map((row, rowId) => {
-      return (
-				<div>
-					<div className={styles.Row} key={'row' + rowId}>
-						{row.map((cellValue, colId) => { 
-							return (
-								<div key={'col-' + colId}>
-									<Cell value={cellValue} />
-								</div>
-							)
-						})}
-					</div>
-				</div>
-			)
-    })
-  }
 
   onSolveClickHandler = () => {
 		axios
@@ -61,9 +42,9 @@ class Maze extends React.Component {
 
   render () {
     return (
-			<div className={styles.Maze}>
+			<div className={styles.Main}>
         <h1>Maze Solver!</h1>
-				{this.parseMaze()}
+				<Maze maze={this.state.grid}></Maze>
 				<Controls 
 					onSolveClickHandler={this.onSolveClickHandler}
 					onResetMazeHandler={this.onResetMazeHandler} 
@@ -73,4 +54,4 @@ class Maze extends React.Component {
   }
 }
 
-export default Maze
+export default Main

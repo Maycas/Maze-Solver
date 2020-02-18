@@ -4,7 +4,7 @@ import styles from './Controls.module.css'
 
 import Button from '../Button/Button'
 
-const Controls = (props) => {
+const controls = (props) => {
   return (
     <div className={styles.Controls}>
       <Button onClick={props.onSolveClickHandler}>FIND PATH</Button>
@@ -13,4 +13,4 @@ const Controls = (props) => {
   )
 }
 
-export default Controls
+export default controls
