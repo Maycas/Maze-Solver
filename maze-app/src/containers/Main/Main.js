@@ -12,7 +12,8 @@ class Main extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-			grid: []
+			grid: [],
+			solved: false
 		}
 	}
 	
@@ -22,7 +23,7 @@ class Main extends React.Component {
 
 	getMaze = () => {
 		axios.get('http://localhost:8000/api/maze')
-			.then(response => this.setState({ grid: response.data.grid }))
+			.then(response => this.setState({ grid: response.data.grid, solved: false }))
 			.catch(error => console.error(error))
 	}
 
@@ -31,10 +32,30 @@ class Main extends React.Component {
 			.post('http://localhost:8000/api/solveMaze', {
 				grid: this.state.grid
 			})
-			.then(response => this.setState({ grid: response.data.grid }))
+			.then(response => this.setState({ grid: response.data.grid, solved: true }))
 			.catch(error => console.error(error))
 	}
 	
+	onCellClickedHandler = (event, cellPosition) => {
+		const value = event.target.innerText
+		const pos = cellPosition
+		const grid = JSON.parse(JSON.stringify(this.state.grid))		
+		if(!this.state.solved) {
+			switch (value) {
+				case '':
+					grid[pos[0]][pos[1]] = -1
+					break
+				case '-1':
+					console.log("clicked")
+					grid[pos[0]][pos[1]] = ' '
+					break
+				default:
+					break
+			}
+		}
+		this.setState({ grid: grid })
+	}
+
 	onResetMazeHandler = () => {
 		this.getMaze()
 	}
@@ -43,11 +64,12 @@ class Main extends React.Component {
     return (
 			<div className={styles.Main}>
 				<Maze 
-					maze={this.state.grid}>
-				</Maze>
+					maze={this.state.grid}
+					onCellClicked={this.onCellClickedHandler}
+				/>
 				<Controls 
-					onSolveClickHandler={this.onSolveClickHandler}
-					onResetMazeHandler={this.onResetMazeHandler} 
+					onSolveClick={this.onSolveClickHandler}
+					onResetMaze={this.onResetMazeHandler} 
 				/>
 			</div>
 		)

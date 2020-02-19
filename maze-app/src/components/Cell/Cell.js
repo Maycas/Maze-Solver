@@ -19,7 +19,13 @@ const cell = (props) => {
       break
   }
 
-  return (<div className={classes.join(' ')}>{props.value}</div>)
+  return (
+    <div
+      className={classes.join(' ')}
+      position={props.position}
+      onClick={(event) => props.onCellClicked(event, props.position)}
+    >{props.value}</div>
+  )
 }
 
 export default cell

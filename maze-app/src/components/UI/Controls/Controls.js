@@ -7,8 +7,8 @@ import Button from '../Button/Button'
 const controls = (props) => {
   return (
     <div className={styles.Controls}>
-      <Button onClick={props.onSolveClickHandler}>FIND PATH</Button>
-      <Button onClick={props.onResetMazeHandler}>RESET MAZE</Button>
+      <Button onClick={props.onSolveClick}>FIND PATH</Button>
+      <Button onClick={props.onResetMaze}>RESET MAZE</Button>
     </div>
   )
 }

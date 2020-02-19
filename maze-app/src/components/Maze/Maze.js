@@ -7,18 +7,18 @@ import Cell from '../Cell/Cell'
 const maze = (props) => {
   return props.maze.map((row, rowId) => {
     return (
-      <div>
-        <div className={styles.Row} key={'row-' + rowId}>
-          {row.map((cellValue, colId) => {
-            return (
-              <div key={'col-' + colId}>
-                <Cell
-                  value={cellValue}
-                />
-              </div>
-            )
-          })}
-        </div>
+      <div className={styles.Row} key={'row-' + rowId}>
+        {row.map((cellValue, colId) => {
+          return (
+            <div key={'col-' + colId}>
+              <Cell
+                value={cellValue}
+                position={[rowId, colId]}
+                onCellClicked={props.onCellClicked}
+              />
+            </div>
+          )
+        })}
       </div>
     )
   })
