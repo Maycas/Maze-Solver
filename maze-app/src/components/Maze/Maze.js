@@ -15,6 +15,8 @@ const maze = (props) => {
                 value={cellValue}
                 position={[rowId, colId]}
                 onCellClicked={props.onCellClicked}
+                onCellDragged={props.onCellDragged}
+                onCellDropped={props.onCellDropped}
               />
             </div>
           )
