@@ -23,7 +23,7 @@ const cell = (props) => {
     <div
       className={classes.join(' ')}
       position={props.position}
-      draggable={props.value === 0}
+      draggable={props.value === 0 && !props.solved}
       onClick={event => props.onCellClicked(event, props.position)}
       onDrag={event => props.onCellDragged(event, props.position)}
       onDragOver={event => event.preventDefault()}

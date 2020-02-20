@@ -58,24 +58,30 @@ class Main extends React.Component {
 
 	onResetMazeHandler = () => {
 		this.getMaze()
+		this.setState({ solved: false })
 	}
 
 	onCellDraggedHandler = (event, draggedCellPosition) => {
 		event.preventDefault()
-		this.setState({ draggedCellPosition: draggedCellPosition })
+		if(!this.state.solved) {
+			this.setState({ draggedCellPosition: draggedCellPosition })
+		}
 	}
 
 	onCellDroppedHandler = (event, onDroppedCellPosition) => {
 		event.preventDefault()
-		const grid = JSON.parse(JSON.stringify(this.state.grid))
-		const draggedCellPosition = this.state.draggedCellPosition
-		const onDroppedCellValue = grid[onDroppedCellPosition[0]][onDroppedCellPosition[1]]
 
-		// swap cell values
-		grid[draggedCellPosition[0]][draggedCellPosition[1]] = onDroppedCellValue
-		grid[onDroppedCellPosition[0]][onDroppedCellPosition[1]] = 0
+		if(!this.state.solved) {
+			const grid = JSON.parse(JSON.stringify(this.state.grid))
+			const draggedCellPosition = this.state.draggedCellPosition
+			const onDroppedCellValue = grid[onDroppedCellPosition[0]][onDroppedCellPosition[1]]
 
-		this.setState({ grid: grid })
+			// swap cell values
+			grid[draggedCellPosition[0]][draggedCellPosition[1]] = onDroppedCellValue
+			grid[onDroppedCellPosition[0]][onDroppedCellPosition[1]] = 0
+
+			this.setState({ grid: grid })
+		}
 	}
 
   render () {
@@ -83,6 +89,7 @@ class Main extends React.Component {
 			<div className={styles.Main}>
 				<Maze 
 					maze={this.state.grid}
+					solved={this.state.solved}
 					onCellClicked={this.onCellClickedHandler}
 					onCellDragged={this.onCellDraggedHandler}
 					onCellDropped={this.onCellDroppedHandler}
