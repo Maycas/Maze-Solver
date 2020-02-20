@@ -11,3 +11,8 @@
   background-color: rgb(144, 214, 137);
   cursor: pointer
 }
+
+.Button:disabled {
+  background-color: rgb(179, 166, 166);
+  cursor: initial;
+}

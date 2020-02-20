@@ -95,6 +95,7 @@ class Main extends React.Component {
 					onCellDropped={this.onCellDroppedHandler}
 				/>
 				<Controls 
+					solved={this.state.solved}
 					onSolveClick={this.onSolveClickHandler}
 					onResetMaze={this.onResetMazeHandler} 
 				/>
