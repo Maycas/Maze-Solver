@@ -1,8 +1,8 @@
-# Maze Solver
+# Maze Solver
 
 A fullstack application that, with a given maze and a starting point, it defines what's the lowest cost to move from the start to any of the accessible cells in a maze, using the breadth first search algorithm.
 
-## Client side app (Frontend)
+## Client side app (Frontend)
 
 The client side application is built in React and allows the user to:
 
